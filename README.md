@@ -8,7 +8,7 @@ This repository contains a demo implementation of a **SATP (Secure Asset Transfe
   - [Repository Structure](#repository-structure)
   - [Case Descriptions](#case-descriptions)
     - [Oracle Cases (gateway/oracle)](#oracle-cases-gatewayoracle)
-    - [SATP Cases (satp/)](#satp-cases-satp)
+    - [SATP Cases (gateway/satp/)](#satp-cases-satp)
   - [EVM Test Environment](#evm-test-environment)
   - [Important Instructions](#important-instructions)
   - [Setup & Running](#setup--running)
@@ -19,15 +19,15 @@ This repository contains a demo implementation of a **SATP (Secure Asset Transfe
 
 ```
 .
-├── EVM/                           # Hardhat project for setting up test EVM blockchains
+├── EVM/                          # Hardhat project for setting up test EVM blockchains
 ├── gateway/
 │   └── oracle/
 │       ├── case_1/               # Middleware: Manual READ and WRITE
 │       ├── case_2/               # Middleware: Auto READ and WRITE
 │       ├── case_3/               # Register polling for periodic READ
 │       ├── case_4/               # Event listening + READ and UPDATE
-├── satp/
-│   └── case_1/                   # SATP Protocol: Asset transfer between EVM blockchains
+│   └── satp/
+│       └── case_1/               # SATP Protocol: Asset transfer between EVM blockchains
 ```
 
 ---
@@ -43,7 +43,7 @@ These use cases demonstrate the usage of the gateway as middleware to interact w
 * **Case 3**: Registering a **polling task** to periodically READ from an EVM blockchain
 * **Case 4**: **Cross-chain event listening** with subsequent READ and conditional UPDATE actions
 
-### SATP Cases (satp/)
+### SATP Cases (gateway/satp/)
 
 The SATP folder contains secure asset transfer protocol cases.
 
