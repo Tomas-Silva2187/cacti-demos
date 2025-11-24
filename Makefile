@@ -11,12 +11,14 @@ clean:
 	@docker compose -f gateway/oracle/case_3/docker-compose.yaml down -v || true
 	@docker compose -f gateway/oracle/case_4/docker-compose.yaml down -v || true
 	@docker compose -f gateway/satp/case_1/docker-compose.yaml down -v || true
+	@docker compose -f gateway/satp/case_2/docker-compose.yaml down -v || true
 
 	# 2. Remove containers by image name and port
 	@docker ps -a --format '{{.ID}} {{.Ports}}' | awk '/3010|3011|4010/ {print $1}' | xargs -r docker rm -f || true
 	@docker ps -a --filter ancestor=5c4a6ec3b166 --format '{{.ID}}' | xargs -r docker rm -f || true
 	@docker ps -a --filter ancestor=aaugusto11/cacti-satp-hermes-gateway:215ad342b-2025-05-29 --format '{{.ID}}' | xargs -r docker rm -f || true
 	@docker ps -a --filter name=case_1-satp-hermes-gateway- --format '{{.ID}}' | xargs -r docker rm -f || true
+	@docker ps -a --filter name=case_2-satp-hermes-gateway- --format '{{.ID}}' | xargs -r docker rm -f || true
 
 	# 3. Kill any process using ports 8545 or 8546 (Hardhat nodes)
 	@lsof -ti:8545 | xargs -r kill -9 || true
@@ -56,6 +58,45 @@ run-satp-case-1:
 			(cd gateway/satp/case_1 && python3 satp-evm-check-status.py $$SESSION_ID); \
 			sleep $(SHORTWAIT); \
 			(cd gateway/satp/case_1 && python3 satp-evm-perform-audit.py); \
+		else \
+			echo "SESSION_ID not found in output, skipping status/audit checks."; \
+		fi \
+	else \
+		echo "satp-transact did not produce output, skipping status/audit checks."; \
+	fi
+	sleep $(MEDIUMWAIT)
+	# Check (again) the balances of the user and the bridge contract address
+	(cd EVM && node scripts/SATPTokenContract-CheckBalances.js)
+
+.PHONY: run-satp-case-2
+run-satp-case-2:
+	@echo "Running SATP Case 2: Gateway as Middleware for READ_AND_WRITE in EVM-based blockchains..."
+	$(MAKE) clean-port-container PORT=3010
+	# Start Hardhat EVM Blockchain 1 (port 8545)
+	(cd EVM && npx hardhat node --hostname 0.0.0.0 --port 8545 &)
+	sleep $(MEDIUMWAIT)
+	# Start Hardhat EVM Blockchain 2 (port 8546)
+	(cd EVM && npx hardhat node --hostname 0.0.0.0 --port 8546 &)
+	sleep $(MEDIUMWAIT)
+	# Start the Gateway (Docker Compose)
+	(cd gateway/satp/case_2 && docker compose up -d)
+	sleep $(LONGWAIT)
+	# (Optional) Check the blockchains to which each Gateway is connected
+	(cd gateway/satp/case_2 && python3 satp-evm-get-integrations.py)
+	sleep $(SHORTWAIT)
+	# Deploy the SATPNonFungibleTokenContract to both blockchains
+	(cd EVM && node scripts/SATPNonFungibleTokenContract.js)
+	sleep $(LONGWAIT)
+	# Run the SATP protocol script (transactions, status, audit)
+	@mkdir -p gateway/satp/case_2/outputs
+	(cd gateway/satp/case_2 && python3 satp-transact.py > outputs/session_output.json)
+	sleep $(SHORTWAIT)
+	@if [ -s gateway/satp/case_2/outputs/session_output.json ]; then \
+		export SESSION_ID=$$(cat gateway/satp/case_2/outputs/session_output.json | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('sessionID','')) if isinstance(d, dict) else print('')"); \
+		if [ "$$SESSION_ID" != "" ]; then \
+			(cd gateway/satp/case_2 && python3 satp-evm-check-status.py $$SESSION_ID); \
+			sleep $(SHORTWAIT); \
+			(cd gateway/satp/case_2 && python3 satp-evm-perform-audit.py); \
 		else \
 			echo "SESSION_ID not found in output, skipping status/audit checks."; \
 		fi \
@@ -163,6 +204,9 @@ run-all-cases:
 	$(MAKE) clean
 	sleep $(SHORTWAIT)
 	$(MAKE) run-satp-case-1
+	$(MAKE) clean
+	sleep $(SHORTWAIT)
+	$(MAKE) run-satp-case-2
 	$(MAKE) clean
 	@echo "All cases executed successfully. Cleaned up."
 

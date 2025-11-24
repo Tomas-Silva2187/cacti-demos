@@ -34,7 +34,8 @@ This repository contains a demo implementation of a **SATP (Secure Asset Transfe
 │       └── case_6/               # Register polling for periodic READ and WRITE (w/ Hyperledger Fabric)
 │       └── case_7/               # Event listening for READ and WRITE (w/ Hyperledger Fabric)
 │   └── satp/
-│       └── case_1/               # SATP Protocol: Asset transfer between EVM blockchains
+│       └── case_1/               # SATP Protocol: Fungible asset transfer between EVM blockchains
+│       └── case_2/               # SATP Protocol: Non fungible asset transfer between EVM blockchains
 ```
 
 ---
@@ -60,6 +61,7 @@ These use cases demonstrate the usage of the gateway as middleware to interact w
 The SATP folder contains secure asset transfer protocol cases.
 
 * **Case 1**: Coordinated **READ and WRITE** using the gateway across blockchains, following SATP protocol.
+* **Case 2**: Coordinated **READ and WRITE** using the gateway across blockchains, following SATP protocol.
 
 ---
 
@@ -102,7 +104,8 @@ to see all available targets for building, deploying, and running the demo cases
 - `make run-oracle-case-2` — Oracle Case 2: Automatic READ and WRITE
 - `make run-oracle-case-3` — Oracle Case 3: Register polling for periodic READ
 - `make run-oracle-case-4` — Oracle Case 4: Event listening + READ and UPDATE
-- `make run-satp-case-1`   — SATP Case 1: Asset transfer protocol
+- `make run-satp-case-1`   — SATP Case 1: Fungible asset transfer protocol
+- `make run-satp-case-2`   — SATP Case 2: Non fungible asset transfer protocol 
 - `make run-all-cases`      — Run all cases sequentially with cleanup between each
 
 Each case also includes its own `README.md` with step-by-step instructions for manual or advanced usage.
