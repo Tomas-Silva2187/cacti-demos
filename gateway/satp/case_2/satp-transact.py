@@ -1,4 +1,3 @@
-
 import requests
 import json
 
@@ -32,29 +31,29 @@ def transact():
         "contextID": 'mockContext',
         "sourceAsset": {
             "id": "ExampleAsset",
-            "referenceId": "SATP-ERC20-ETHEREUM",
+            "referenceId": "SATP-ERC721-ETHEREUM",
             "owner": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8", # the user's address
-            "contractName": "SATPTokenContract",
+            "contractName": "SATPNonFungibleTokenContract",
             "contractAddress": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512", # the SATP contract address
             "networkId": {
                 "id": "EthereumLedgerTestNetwork1",
                 "ledgerType": "ETHEREUM",
             },
-            "tokenType": "NONSTANDARD_FUNGIBLE",
-            "amount": "100"
+            "tokenType": "NONSTANDARD_NONFUNGIBLE",
+            "amount": "1001"
         },
         "receiverAsset": {
             "id": "ExampleAsset",
-            "referenceId": "SATP-ERC20-ETHEREUM",
+            "referenceId": "SATP-ERC721-ETHEREUM",
             "owner": "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc", # the user's address
-            "contractName": "SATPTokenContract",
+            "contractName": "SATPNonFungibleTokenContract",
             "contractAddress": "0xbded0d2bf404bdcba897a74e6657f1f12e5c6fb6", # the SATP contract address
             "networkId": {
                 "id": "EthereumLedgerTestNetwork2",
                 "ledgerType": "ETHEREUM",
             },
-            "tokenType": "NONSTANDARD_FUNGIBLE",
-            "amount": "100"
+            "tokenType": "NONSTANDARD_NONFUNGIBLE",
+            "amount": "1001"
         }
     }
 
