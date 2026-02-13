@@ -1,0 +1,89 @@
+{
+  "gid": {
+    "id": "mockID-2",
+    "name": "CustomGateway",
+    "version": [
+      {
+        "Core": "v02",
+        "Architecture": "v02",
+        "Crash": "v02"
+      }
+    ],
+    "connectedDLTs": [
+      {
+        "id": "BesuLedgerTestNetwork",
+        "ledgerType": "BESU_2X"
+      }
+    ],
+    "proofID": "mockProofID11",
+    "address": "http://satp-hermes-gateway-2",
+    "gatewayClientPort": 3011,
+    "gatewayServerPort": 3010,
+    "gatewayOapiPort": 4010,
+    "identificationCredential": {
+      "signingAlgorithm": "SECP256K1",
+      "pubKey": "024c0cf54f92d23dbb3d409a8047aa2a44abcb911767d3516b19fd94c2358dec65"
+    }
+  },
+  "logLevel": "TRACE",
+  "counterPartyGateways": [
+    {
+      "id": "mockID-1",
+      "name": "CustomGateway",
+      "version": [
+        {
+          "Core": "v02",
+          "Architecture": "v02",
+          "Crash": "v02"
+        }
+      ],
+      "connectedDLTs": [
+        {
+          "id": "EthereumLedgerTestNetwork",
+          "ledgerType": "ETHEREUM"
+        }
+      ],
+      "proofID": "mockProofID10",
+      "address": "http://satp-hermes-gateway-1",
+      "gatewayClientPort": 3011,
+      "gatewayServerPort": 3010,
+      "gatewayOapiPort": 4010,
+      "identificationCredential": {
+        "signingAlgorithm": "SECP256K1",
+        "pubKey": "036256069f81bcaae52a64965b8add79521ee54cb2ad3d85de5250d78cf0fc171c"
+      }
+    }
+  ],
+  "environment": "development",
+  "ccConfig": {
+    "bridgeConfig": [
+      {
+        "networkIdentification": {
+          "id": "BesuLedgerTestNetwork",
+          "ledgerType": "BESU_2X"
+        },
+        "signingCredential": {
+          "transactionSignerEthAccount": "0xfe3b557e8fb62b89f4916b721be55ceb828dbd73",
+          "secret": "0x8f2a55949038a9610f50fb23b5883af3b4ecb3c3bb792cbcefbd1542c692be63",
+          "type": "PRIVATE_KEY_HEX"
+        },
+        "gasConfig": {
+          "gasLimit": "999999999999999"
+        },
+        "connectorOptions": {
+          "rpcApiHttpHost": "http://172.17.0.1:8545",
+          "rpcApiWsHost": "ws://172.17.0.1:8546"
+        },
+        "claimFormats": [
+          1
+        ]
+      }
+    ]
+  },
+  "keyPair": {
+    "privateKey": "28215964122bbc927fabd1b1c6a450c22852e5784510decfdb9a104b6a121578",
+    "publicKey": "024c0cf54f92d23dbb3d409a8047aa2a44abcb911767d3516b19fd94c2358dec65"
+  },
+  "enableCrashRecovery": false,
+  "ontologyPath": "/opt/cacti/satp-hermes/ontologies"
+}
