@@ -32,13 +32,13 @@ def transact():
         "contextID": 'mockContext',
         "sourceAsset": {
             "id": "ExampleAsset",
-            "referenceId": "SATP-ERC20-ETHEREUM",
-            "owner": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8", # the user's address
+            "referenceId": "SATP-ERC20-BESU",
+            "owner": "0xf17f52151EbEF6C7334FAD080c5704D77216b732", # the user's address
             "contractName": "SATPTokenContract",
-            "contractAddress": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512", # the SATP contract address
+            "contractAddress": "0xa50a51c09a5c451C52BB714527E1974b686D8e77", # the SATP contract address
             "networkId": {
-                "id": "EthereumLedgerTestNetwork1",
-                "ledgerType": "ETHEREUM",
+                "id": "BesuLedgerTestNetwork",
+                "ledgerType": "BESU_2X",
             },
             "tokenType": "NONSTANDARD_FUNGIBLE",
             "amount": "100"
@@ -46,11 +46,11 @@ def transact():
         "receiverAsset": {
             "id": "ExampleAsset",
             "referenceId": "SATP-ERC20-ETHEREUM",
-            "owner": "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc", # the user's address
+            "owner": "0x71bE63f3384f5fb98995898A86B02Fb2426c5788", # the user's address
             "contractName": "SATPTokenContract",
-            "contractAddress": "0xbded0d2bf404bdcba897a74e6657f1f12e5c6fb6", # the SATP contract address
+            "contractAddress": "0xfbfbfDdd6e35dA57b7B0F9a2C10E34Be70B3A4E9", # the SATP contract address
             "networkId": {
-                "id": "EthereumLedgerTestNetwork2",
+                "id": "EthereumLedgerTestNetwork",
                 "ledgerType": "ETHEREUM",
             },
             "tokenType": "NONSTANDARD_FUNGIBLE",

@@ -11,19 +11,19 @@
     ],
     "connectedDLTs": [
       {
-        "id": "BesuLedgerTestNetwork",
-        "ledgerType": "BESU_2X"
+        "id": "EthereumLedgerTestNetwork",
+        "ledgerType": "ETHEREUM"
       }
     ],
-    "proofID": "mockProofID11",
+    "proofID": "mockProofID10",
     "address": "http://satp-hermes-gateway-2",
     "gatewayClientPort": 3011,
     "gatewayServerPort": 3010,
     "gatewayOapiPort": 4010,
     "identificationCredential": {
       "signingAlgorithm": "SECP256K1",
-      "pubKey": "024c0cf54f92d23dbb3d409a8047aa2a44abcb911767d3516b19fd94c2358dec65"
-    }
+      "pubKey": "036256069f81bcaae52a64965b8add79521ee54cb2ad3d85de5250d78cf0fc171c"
+    }    
   },
   "logLevel": "TRACE",
   "counterPartyGateways": [
@@ -39,18 +39,18 @@
       ],
       "connectedDLTs": [
         {
-          "id": "EthereumLedgerTestNetwork",
-          "ledgerType": "ETHEREUM"
+          "id": "BesuLedgerTestNetwork",
+          "ledgerType": "BESU_2X"
         }
       ],
-      "proofID": "mockProofID10",
+      "proofID": "mockProofID11",
       "address": "http://satp-hermes-gateway-1",
       "gatewayClientPort": 3011,
       "gatewayServerPort": 3010,
       "gatewayOapiPort": 4010,
       "identificationCredential": {
         "signingAlgorithm": "SECP256K1",
-        "pubKey": "036256069f81bcaae52a64965b8add79521ee54cb2ad3d85de5250d78cf0fc171c"
+        "pubKey": "024c0cf54f92d23dbb3d409a8047aa2a44abcb911767d3516b19fd94c2358dec65"    
       }
     }
   ],
@@ -59,20 +59,20 @@
     "bridgeConfig": [
       {
         "networkIdentification": {
-          "id": "BesuLedgerTestNetwork",
-          "ledgerType": "BESU_2X"
+          "id": "EthereumLedgerTestNetwork",
+          "ledgerType": "ETHEREUM"
         },
         "signingCredential": {
-          "transactionSignerEthAccount": "0xfe3b557e8fb62b89f4916b721be55ceb828dbd73",
-          "secret": "0x8f2a55949038a9610f50fb23b5883af3b4ecb3c3bb792cbcefbd1542c692be63",
+          "transactionSignerEthAccount": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+          "secret": "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
           "type": "PRIVATE_KEY_HEX"
         },
         "gasConfig": {
-          "gasLimit": "999999999999999"
+          "gas": "6721975",
+          "gasPrice": "20000000000"
         },
         "connectorOptions": {
-          "rpcApiHttpHost": "http://172.17.0.1:8545",
-          "rpcApiWsHost": "ws://172.17.0.1:8546"
+          "rpcApiHttpHost": "http://host.docker.internal:8547"
         },
         "claimFormats": [
           1
@@ -81,8 +81,8 @@
     ]
   },
   "keyPair": {
-    "privateKey": "28215964122bbc927fabd1b1c6a450c22852e5784510decfdb9a104b6a121578",
-    "publicKey": "024c0cf54f92d23dbb3d409a8047aa2a44abcb911767d3516b19fd94c2358dec65"
+    "privateKey": "38c732b7b86d752c5c051a9c944a683da994eac1cc1544462518b90f89d8146d",
+    "publicKey": "036256069f81bcaae52a64965b8add79521ee54cb2ad3d85de5250d78cf0fc171c"
   },
   "enableCrashRecovery": false,
   "ontologyPath": "/opt/cacti/satp-hermes/ontologies"
