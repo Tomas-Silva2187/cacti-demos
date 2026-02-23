@@ -24,10 +24,7 @@
     "gatewayClientPort": 3011,
     "gatewayServerPort": 3010,
     "gatewayOapiPort": 4010,
-    "identificationCredential": {
-      "signingAlgorithm": "SECP256K1",
-      "pubKey": "036256069f81bcaae52a64965b8add79521ee54cb2ad3d85de5250d78cf0fc171c"
-    }  
+    "pubKey": "036256069f81bcaae52a64965b8add79521ee54cb2ad3d85de5250d78cf0fc171c" 
   },
   "logLevel": "TRACE",
   "counterPartyGateways": [
@@ -56,10 +53,7 @@
       "gatewayClientPort": 3011,
       "gatewayServerPort": 3010,
       "gatewayOapiPort": 4010,
-      "identificationCredential": {
-        "signingAlgorithm": "SECP256K1",
-        "pubKey": "024c0cf54f92d23dbb3d409a8047aa2a44abcb911767d3516b19fd94c2358dec65"    
-      }
+      "pubKey": "024c0cf54f92d23dbb3d409a8047aa2a44abcb911767d3516b19fd94c2358dec65"    
     }
   ],
   "environment": "development",
@@ -71,8 +65,8 @@
           "ledgerType": "ETHEREUM"
         },
         "signingCredential": {
-          "transactionSignerEthAccount": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-          "secret": "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d",
+          "ethAccount": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+          "secret": "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
           "type": "PRIVATE_KEY_HEX"
         },
         "gasConfig": {
@@ -85,29 +79,7 @@
         "claimFormats": [
           1
         ],
-        "leafId": "ethereum-leaf"
-      },
-      {
-        "networkIdentification": {
-            "id": "BesuLedgerTestNetwork",
-            "ledgerType": "BESU_2X"
-        },
-        "signingCredential": {
-            "transactionSignerEthAccount": "0xfe3b557e8fb62b89f4916b721be55ceb828dbd73",
-            "secret": "0x8f2a55949038a9610f50fb23b5883af3b4ecb3c3bb792cbcefbd1542c692be63",
-            "type": "PRIVATE_KEY_HEX"
-        },
-        "gasConfig": {
-            "gasLimit": "999999999999999"
-        },
-        "connectorOptions": {
-            "rpcApiHttpHost": "http://172.17.0.1:8545",
-            "rpcApiWsHost": "ws://172.17.0.1:8546"
-        },
-        "claimFormats": [
-            1
-        ],
-        "leafId": "besu-leaf"
+        "leafId": "leaf-eth"
       }
     ]
   },

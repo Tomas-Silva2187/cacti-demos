@@ -13,6 +13,7 @@ clean:
 	@docker compose -f gateway/satp/case_1/docker-compose.yaml down -v || true
 	@docker compose -f gateway/satp/case_2/docker-compose.yaml down -v || true
 	@docker compose -f gateway/satp/case_3/docker-compose.yaml down -v || true
+	@docker compose -f gateway/satp/case_4/docker-compose.yaml down -v || true
 
 
 	# 2. Remove containers by image name and port
@@ -22,6 +23,7 @@ clean:
 	@docker ps -a --filter name=case_1-satp-hermes-gateway- --format '{{.ID}}' | xargs -r docker rm -f || true
 	@docker ps -a --filter name=case_2-satp-hermes-gateway- --format '{{.ID}}' | xargs -r docker rm -f || true
 	@docker ps -a --filter name=case_3-satp-hermes-gateway- --format '{{.ID}}' | xargs -r docker rm -f || true
+	@docker ps -a --filter name=case_4-satp-hermes-gateway- --format '{{.ID}}' | xargs -r docker rm -f || true
 
 	# 3. Kill any process using ports 8545 or 8546 or 8547 (Hardhat nodes)
 	@lsof -ti:8545 | xargs -r kill -9 || true
@@ -196,6 +198,75 @@ run-satp-case-3:
 	sleep $(MEDIUMWAIT)
 	# Check (again) the balances of the user and the bridge contract address
 	(cd EVM && node scripts/SATPTokenContract-CheckBalances-Case3.js)
+
+.PHONY: run-satp-case-4
+run-satp-case-4:
+	@echo "Running SATP Case 4: Gateway as Middleware for READ_AND_WRITE in EVM-based blockchains..."
+	$(MAKE) clean-port-container PORT=3010
+	# Obtain Besu binary
+	#@wget -c https://github.com/hyperledger/besu/releases/download/25.11.0/besu-25.11.0.tar.gz
+	#@tar -xvf besu-25.11.0.tar.gz
+	#@mkdir besu-25.11.0/tmpDatadir
+	# Start Besu Blockchain (port 8545 and 8546)
+	(cd gateway/satp/case_4 && chmod +x startBesu.sh && ./startBesu.sh > besuout.txt &)
+	sleep $(MEDIUMWAIT)
+	# Start Hardhat EVM Blockchain (port 8547)
+	(cd EVM && npx hardhat node --hostname 0.0.0.0 --port 8547 &)
+	sleep $(MEDIUMWAIT)
+	# Start the Gateway (Docker Compose)
+	(cd gateway/satp/case_4 && docker compose up -d)
+	sleep $(LONGWAIT)
+	# (Optional) Check the blockchains to which each Gateway is connected
+	(cd gateway/satp/case_4 && python3 satp-evm-get-integrations.py)
+	sleep $(SHORTWAIT)
+	# Deploy the SATPFungibleTokenContract to all blockchains
+	(cd EVM && node scripts/SATPTokenContractCase4.js 1)
+	sleep $(LONGWAIT)
+	# Run the SATP protocol script (transactions, status, audit)
+	@mkdir -p gateway/satp/case_4/outputs
+	(cd gateway/satp/case_4 && python3 satp-transact.py 1 > outputs/session_output1.json)
+	sleep $(SHORTWAIT)
+	@if [ -s gateway/satp/case_4/outputs/session_output1.json ]; then \
+		export SESSION_ID=$$(cat gateway/satp/case_4/outputs/session_output1.json | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('sessionID','')) if isinstance(d, dict) else print('')"); \
+		if [ "$$SESSION_ID" != "" ]; then \
+			(cd gateway/satp/case_4 && python3 satp-evm-check-status.py $$SESSION_ID); \
+			sleep $(SHORTWAIT); \
+			(cd gateway/satp/case_4 && python3 satp-evm-perform-audit.py); \
+		else \
+			echo "SESSION_ID not found in output, skipping status/audit checks."; \
+		fi \
+	else \
+		echo "satp-transact did not produce output, skipping status/audit checks."; \
+	fi
+	sleep $(MEDIUMWAIT)
+	# Check (again) the balances of the user and the bridge contract address
+	(cd EVM && node scripts/SATPTokenContract-CheckBalances-Case4.js)
+	sleep $(SHORTWAIT)
+	# Update SATPFungibleTokenContract permissions in blockchain2
+	(cd EVM && node scripts/SATPTokenContractCase4.js 2)
+	sleep $(LONGWAIT)
+	# Run the SATP protocol script (transactions, status, audit)
+	(cd gateway/satp/case_4 && python3 satp-transact.py 2 > outputs/session_output2.json)
+	sleep $(SHORTWAIT)
+	@if [ -s gateway/satp/case_4/outputs/session_output2.json ]; then \
+		export SESSION_ID=$$(cat gateway/satp/case_4/outputs/session_output2.json | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('sessionID','')) if isinstance(d, dict) else print('')"); \
+		if [ "$$SESSION_ID" != "" ]; then \
+			(cd gateway/satp/case_4 && python3 satp-evm-check-status.py $$SESSION_ID); \
+			sleep $(SHORTWAIT); \
+			(cd gateway/satp/case_4 && python3 satp-evm-perform-audit.py); \
+		else \
+			echo "SESSION_ID not found in output, skipping status/audit checks."; \
+		fi \
+	else \
+		echo "satp-transact did not produce output, skipping status/audit checks."; \
+	fi
+	sleep $(MEDIUMWAIT)
+	# Check (again) the balances of the user and the bridge contract address
+	(cd EVM && node scripts/SATPTokenContract-CheckBalances-Case4.js)
+	sleep $(SHORTWAIT)
+	@lsof -ti:8545 | xargs -r kill -9 || true
+	@lsof -ti:8546 | xargs -r kill -9 || true
+	@lsof -ti:8547 | xargs -r kill -9 || true
 
 .PHONY: run-oracle-case-1
 run-oracle-case-1:
